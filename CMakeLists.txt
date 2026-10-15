@@ -1,0 +1,8 @@
+cmake_minimum_required(VERSION 3.20)
+project(CantedSights CXX)
+set(CMAKE_CXX_STANDARD 17)
+# xNVSE is cloned by the workflow into ./xNVSE (only its headers are used)
+add_library(CantedSights SHARED src/main.cpp)
+target_include_directories(CantedSights PRIVATE ${CMAKE_SOURCE_DIR}/xNVSE)
+set_target_properties(CantedSights PROPERTIES PREFIX "" OUTPUT_NAME "CantedSights")
+target_compile_definitions(CantedSights PRIVATE RUNTIME RUNTIME_VERSION=0x040020D0 NOMINMAX)
