@@ -1,0 +1,21 @@
+name: build
+on: [push, workflow_dispatch]
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch xNVSE headers
+        run: git clone --depth 1 https://github.com/xNVSE/NVSE.git xNVSE
+      - name: Configure (32-bit)
+        run: cmake -S . -B out -A Win32
+      - name: Build
+        run: cmake --build out --config Release
+      - name: Assemble MO2 mod
+        shell: bash
+        run: |
+          cp out/Release/CantedSights.dll mod/NVSE/Plugins/CantedSights.dll
+      - uses: actions/upload-artifact@v4
+        with:
+          name: CantedSights-MO2
+          path: mod
